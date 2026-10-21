@@ -1,0 +1,92 @@
+---
+import { getCollection, render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("posts", ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const year = (d: Date) =>
+  d.toLocaleDateString("en-GB", { year: "numeric", month: "long", day: "numeric" });
+---
+
+<Base title={`${post.data.title} — The Missing Semester`} description={post.data.description}>
+  <article>
+    <p class="meta">
+      <a class="back" href="/">← writing</a>
+      <time datetime={post.data.date.toISOString()}>{year(post.data.date)}</time>
+      {post.data.tags.length > 0 && <> · {post.data.tags.join(" · ")}</>}
+    </p>
+
+    <h1>{post.data.title}</h1>
+
+    <div class="body">
+      <Content />
+    </div>
+  </article>
+</Base>
+
+<style>
+  h1 {
+    font-family: var(--font-sign);
+    font-size: var(--step-3);
+    line-height: 1.1;
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin: 0 0 var(--space-s);
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    color: var(--fg-muted);
+  }
+
+  .back {
+    color: inherit;
+  }
+
+  .body {
+    margin-top: var(--space-l);
+  }
+
+  .body :global(h2) {
+    font-family: var(--font-sign);
+    font-size: var(--step-1);
+    margin: var(--space-l) 0 var(--space-s);
+  }
+
+  .body :global(blockquote) {
+    margin: var(--space-m) 0;
+    padding-left: var(--space-m);
+    border-left: 3px solid var(--paper-400);
+    color: var(--fg-muted);
+    font-style: italic;
+  }
+
+  .body :global(pre) {
+    padding: var(--space-m);
+    overflow-x: auto;
+    background: var(--slate-900);
+    color: var(--chalk-100);
+    border-radius: 4px;
+  }
+
+  .body :global(code) {
+    font-family: var(--font-mono);
+  }
+
+  .body :global(:not(pre) > code) {
+    background: var(--paper-300);
+    padding: 0.1em 0.35em;
+    border-radius: 3px;
+  }
+</style>
