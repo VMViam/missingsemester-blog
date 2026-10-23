@@ -8,10 +8,26 @@ const posts = (await getCollection("posts", ({ data }) => !data.draft)).sort(
 
 const year = (d: Date) =>
   d.toLocaleDateString("en-GB", { year: "numeric", month: "short", day: "numeric" });
+
+const latestYear = posts[0] ? posts[0].data.date.getFullYear() : "—";
 ---
 
-<Base title="The Missing Semester — writing">
-  <h1>Writing</h1>
+<Base
+  title="The Desk — The Missing Semester"
+  description="Notes, essays and working notes from the one-room schoolhouse."
+>
+  <header class="page-head">
+    <h1>The Desk</h1>
+    <p class="lede">
+      Notes, essays, and working notes — the sentences I am trying to make add
+      up to something.
+    </p>
+
+    <dl class="counts">
+      <div><dt>Published</dt><dd>{posts.length}</dd></div>
+      <div><dt>Latest</dt><dd>{latestYear}</dd></div>
+    </dl>
+  </header>
 
   {
     posts.length === 0 ? (
@@ -41,27 +57,69 @@ const year = (d: Date) =>
 
 <style>
   h1 {
+    font-size: var(--step-4);
+    letter-spacing: -0.03em;
+  }
+
+  .lede {
+    max-width: 44ch;
+    color: var(--fg-muted);
+    font-size: var(--step-1);
+    line-height: 1.45;
+  }
+
+  .counts {
+    display: flex;
+    gap: var(--space-l);
+    margin: var(--space-l) 0 0;
+    padding: var(--space-s) 0;
+    border-top: 1px solid var(--paper-400);
+    border-bottom: 1px solid var(--paper-400);
+  }
+
+  .counts div {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  .counts dt {
     font-family: var(--font-sign);
-    font-size: var(--step-3);
+    font-size: var(--step--1);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+  }
+
+  .counts dd {
+    margin: 0;
+    font-size: var(--step-2);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
   }
 
   .empty {
+    margin-top: var(--space-xl);
     color: var(--fg-muted);
     font-style: italic;
   }
 
   .posts {
     list-style: none;
-    margin: 0;
+    margin: var(--space-xl) 0 0;
     padding: 0;
   }
 
   .post {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: baseline;
+    gap: var(--space-2xs) var(--space-l);
     padding: var(--space-m) 0;
     border-bottom: 1px solid var(--paper-300);
   }
 
   .post__title {
+    grid-column: 1;
     font-family: var(--font-sign);
     font-size: var(--step-1);
     font-weight: 600;
@@ -74,14 +132,30 @@ const year = (d: Date) =>
   }
 
   .post__meta {
-    margin: var(--space-3xs) 0 0;
+    grid-column: 2;
+    grid-row: 1;
+    margin: 0;
+    text-align: right;
     font-family: var(--font-mono);
     font-size: var(--step--1);
     color: var(--fg-muted);
   }
 
   .post__desc {
-    margin: var(--space-xs) 0 0;
+    grid-column: 1 / -1;
+    margin: var(--space-3xs) 0 0;
     color: var(--fg-muted);
+  }
+
+  @media (max-width: 560px) {
+    .post {
+      grid-template-columns: 1fr;
+    }
+
+    .post__meta {
+      grid-column: 1;
+      grid-row: auto;
+      text-align: left;
+    }
   }
 </style>

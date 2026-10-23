@@ -1,6 +1,8 @@
 ---
 import "../styles/tokens.css";
 import "../styles/global.css";
+import SiteNav from "../components/SiteNav.astro";
+import SiteFooter from "../components/SiteFooter.astro";
 
 interface Props {
   title?: string;
@@ -29,7 +31,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400;700&family=Archivo+Narrow:wght@400;600&family=Caveat:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Special+Elite&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..700&family=Archivo+Narrow:wght@400..600&family=Caveat:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Special+Elite&display=swap"
       rel="stylesheet"
     />
 
@@ -38,72 +40,62 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonical} />
   </head>
-  <body>
-    <header class="masthead">
-      <a class="masthead__title" href="/">The Missing Semester</a>
-      <a class="masthead__room" href="https://missingsemester.in">the room</a>
-    </header>
+  <body id="top">
+    <SiteNav />
 
     <main class="sheet">
+      <div class="rail">
+        <a href="https://missingsemester.in/">&larr; Back to school</a>
+        <p>Period 02 &middot; Writing</p>
+      </div>
+
       <slot />
     </main>
 
-    <footer class="colophon">
-      <p>
-        Written on cream stock, in ink.
-        <a href="https://missingsemester.in">Back to the room</a>.
-      </p>
-    </footer>
+    <SiteFooter />
   </body>
 </html>
 
 <style>
-  .masthead {
+  .rail {
     display: flex;
+    flex-wrap: wrap;
     align-items: baseline;
     justify-content: space-between;
-    gap: var(--space-m);
-    max-width: var(--measure);
-    margin: 0 auto;
-    padding: var(--space-l) var(--space-s) 0;
+    gap: var(--space-s);
+    margin-bottom: var(--space-l);
+    padding-bottom: var(--space-s);
     border-bottom: 1px solid var(--paper-400);
-  }
-
-  .masthead__title {
-    font-family: var(--font-sign);
-    font-size: var(--step-1);
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    text-decoration: none;
-  }
-
-  .masthead__room {
     font-family: var(--font-mono);
-    font-size: var(--step--1);
-    color: var(--fg-muted);
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-300);
+  }
+
+  .rail p {
+    margin: 0;
+  }
+
+  .rail a {
+    color: var(--ink-700);
     text-decoration: none;
   }
 
-  .masthead__room:hover {
-    color: var(--fg-ink);
+  .rail a:hover {
+    color: var(--oak-700);
   }
 
   .sheet {
-    max-width: var(--measure);
+    width: 100%;
+    max-width: var(--room-max);
     margin: 0 auto;
-    padding: var(--space-l) var(--space-s) var(--space-2xl);
+    padding: var(--space-xl) var(--space-m) var(--space-2xl);
   }
 
-  .colophon {
-    max-width: var(--measure);
-    margin: 0 auto;
-    padding: 0 var(--space-s) var(--space-xl);
-    font-family: var(--font-mono);
-    font-size: var(--step--1);
-    color: var(--fg-muted);
-  }
-
-  .colophon a {
-    color: inherit;
+  @media (max-width: 560px) {
+    .sheet {
+      padding: var(--space-l) var(--space-s) var(--space-xl);
+    }
   }
 </style>

@@ -20,7 +20,7 @@ const year = (d: Date) =>
 <Base title={`${post.data.title} — The Missing Semester`} description={post.data.description}>
   <article>
     <p class="meta">
-      <a class="back" href="/">← writing</a>
+      <a class="back" href="/">← The Desk</a>
       <time datetime={post.data.date.toISOString()}>{year(post.data.date)}</time>
       {post.data.tags.length > 0 && <> · {post.data.tags.join(" · ")}</>}
     </p>
@@ -34,6 +34,11 @@ const year = (d: Date) =>
 </Base>
 
 <style>
+  article {
+    max-width: var(--measure);
+    margin: 0 auto;
+  }
+
   h1 {
     font-family: var(--font-sign);
     font-size: var(--step-3);
