@@ -1,6 +1,6 @@
 # missingsemester-blog
 
-**blog.missingsemester.in** — the writing.
+**letters.missingsemester.in** — the writing.
 
 One half of the one-room schoolhouse. The room itself
 ([`VMViam/missingsemester`](https://github.com/VMViam/missingsemester)) lives in

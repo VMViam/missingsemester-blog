@@ -4,7 +4,7 @@ Guidance for AI agents working in this repository.
 
 ## Project
 
-**blog.missingsemester.in** — the writing half of the one-room schoolhouse.
+**letters.missingsemester.in** — the writing half of the one-room schoolhouse.
 The room itself is a separate repository, `VMViam/missingsemester`, and the
 library lives there.
 
